@@ -1,60 +1,45 @@
+import { nanoid } from 'nanoid';
 import { Component } from 'react';
-import { Section } from './Feedback/Section';
-import { FeedbackOptions } from './Feedback';
-import { Statistics } from './Feedback/Statistics';
-import { Notification } from './Feedback/Notification';
+import { ContactForm } from './Phonebook/ContactForm';
+import { Section } from './Phonebook/Section';
+// import { FeedbackOptions } from './Feedback';
+// import { Statistics } from './Feedback/Statistics';
+// import { Notification } from './Feedback/Notification';
 
 export class App extends Component {
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    contacts: [],
+    name: '',
   };
 
-  handleFeedbackKeyMap = () => Object.keys(this.state);
-
-  handleLeaveFeedback = event => {
-    const { name } = event.target;
-    this.setState(prevState => ({ [name]: prevState[name] + 1 }));
+  handleChange = event => {
+    const { value } = event.target;
+    this.setState({ name: value });
   };
 
-  countTotalFeedback = () => {
-    return Object.values(this.state).reduce((total, item) => total + item, 0);
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    const { good } = this.state;
-    const total = this.countTotalFeedback();
-    return total && Math.round((good / total) * 100);
+  handleSubmitForm = event => {
+    event.preventDefault();
+    const { name } = this.state;
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { id: nanoid(), name: name }],
+      name: '',
+    }));
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
+    const { contacts, name } = this.state;
 
     return (
       <>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={this.handleFeedbackKeyMap()}
-            onLeaveFeedback={this.handleLeaveFeedback}
-          ></FeedbackOptions>
+        <Section title="Phonebook">
+          <ContactForm
+            value={name}
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmitForm}
+          />
         </Section>
 
-        <Section title="Statistics">
-          {total ? (
-            <Statistics
-              good={good}
-              neutral={neutral}
-              bad={bad}
-              total={total}
-              positivePercentage={positivePercentage}
-            ></Statistics>
-          ) : (
-            <Notification message="There is no feedback"></Notification>
-          )}
-        </Section>
+        <Section title="Contacts"></Section>
       </>
     );
   }

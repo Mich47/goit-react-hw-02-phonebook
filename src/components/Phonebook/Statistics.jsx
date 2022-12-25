@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { Box } from 'components/Box';
-import { TextStyled } from './Feedback.styled';
+import { TextStyled } from './Phonebook.styled';
 
 export const Statistics = ({
   good,

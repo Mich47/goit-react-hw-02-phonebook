@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import { Box } from 'components/Box';
-import { TitleStyled } from './Feedback.styled';
+import { TitleStyled } from './Phonebook.styled';
 
 const sectionStyles = {
   fontFamily: 'body',

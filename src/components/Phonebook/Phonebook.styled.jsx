@@ -37,3 +37,28 @@ export const TextStyled = styled.p`
   text-transform: capitalize;
   ${typography}
 `;
+
+export const FormStyled = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  /* color: ${p => p.theme.colors.black};
+  font-weight: ${p => p.theme.fontWeights.bold};
+  text-transform: capitalize;
+  ${typography} */
+`;
+
+export const LabelStyled = styled.label`
+  font-size: ${p => p.theme.fontSizes.s};
+  color: ${p => p.theme.colors.black};
+  font-weight: ${p => p.theme.fontWeights.bold};
+  text-transform: capitalize;
+  ${typography}
+`;
+export const InputStyled = styled.input`
+  padding: 8px;
+  font-size: ${p => p.theme.fontSizes.s};
+  border-radius: ${p => p.theme.radii.normal};
+  border-color: ${p => p.theme.colors.primary};
+  outline-color: ${p => p.theme.colors.primary};
+`;
