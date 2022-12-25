@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import { Box } from 'components/Box';
 import { InputStyled, LabelStyled } from './Phonebook.styled';
 
@@ -10,10 +11,13 @@ export const Filter = ({ filter, onChange }) => {
         value={filter}
         type="text"
         name="filter"
-        // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         onChange={onChange}
       />
     </Box>
   );
+};
+
+Filter.propTypes = {
+  filter: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };

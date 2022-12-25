@@ -16,10 +16,10 @@ const sectionStyles = {
   as: 'section',
 };
 
-export const Section = ({ title, children }) => {
+export const Section = ({ title, headingLevel = 'h1', children }) => {
   return (
     <Box {...sectionStyles}>
-      <TitleStyled>{title}</TitleStyled>
+      <TitleStyled as={headingLevel}>{title}</TitleStyled>
       {children}
     </Box>
   );
@@ -27,5 +27,6 @@ export const Section = ({ title, children }) => {
 
 Section.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.element,
+  headingLevel: PropTypes.string,
+  // children: PropTypes.element,
 };

@@ -14,8 +14,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handleChange = event => {
@@ -23,47 +21,51 @@ export class App extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmitForm = event => {
-    event.preventDefault();
-    const { name, number } = this.state;
+  handleDelete = id => {
     this.setState(prevState => ({
-      contacts: [
-        ...prevState.contacts,
-        { id: nanoid(), name: name, number: number },
-      ],
-      name: '',
-      number: '',
+      contacts: prevState.contacts.filter(item => item.id !== id),
     }));
+  };
+
+  handleSubmitForm = (event, name, number) => {
+    event.preventDefault();
+    this.checkContact(name)
+      ? alert(`${name} is already in contacts.`)
+      : this.setState(prevState => ({
+          contacts: [
+            ...prevState.contacts,
+            { id: nanoid(), name: name, number: number },
+          ],
+        }));
+  };
+
+  checkContact = newName => {
+    const { contacts } = this.state;
+    return contacts.some(({ name }) => name === newName);
   };
 
   filteredContacts = filter => {
     const { contacts } = this.state;
-    const filterContacts = contacts.filter(({ name }) => {
-      console.log('name ', name);
+    return contacts.filter(({ name }) => {
       return name.toLowerCase().includes(filter.toLowerCase());
     });
-    console.log('filterContact ', filterContacts);
-    return filterContacts;
   };
 
   render() {
-    const { name, number, filter } = this.state;
-
+    const { filter } = this.state;
     const filteredContacts = this.filteredContacts(filter);
 
     return (
       <>
         <Section title="Phonebook">
-          <ContactForm
-            name={name}
-            number={number}
-            onSubmit={this.handleSubmitForm}
-            onChange={this.handleChange}
-          />
+          <ContactForm onSubmit={this.handleSubmitForm} />
         </Section>
-        <Section title="Contacts">
+        <Section title="Contacts" headingLevel="h2">
           <Filter filter={filter} onChange={this.handleChange} />
-          <ContactList contacts={filteredContacts} />
+          <ContactList
+            contacts={filteredContacts}
+            onDelete={this.handleDelete}
+          />
         </Section>
       </>
     );
