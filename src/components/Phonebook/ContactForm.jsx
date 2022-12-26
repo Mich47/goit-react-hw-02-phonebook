@@ -9,6 +9,10 @@ import {
 import { Component } from 'react';
 
 export class ContactForm extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     number: '',
@@ -23,14 +27,17 @@ export class ContactForm extends Component {
     this.setState({ name: '', number: '' });
   };
 
+  clearName = () => {
+    this.setState({ name: '' });
+  };
+
   render() {
     const { onSubmit } = this.props;
     const { name, number } = this.state;
     return (
       <FormStyled
         onSubmit={event => {
-          onSubmit(event, name, number);
-          this.clearForm();
+          onSubmit(event, name, number) ? this.clearForm() : this.clearName();
         }}
       >
         <Box display="flex" flexDirection="column">
@@ -43,6 +50,7 @@ export class ContactForm extends Component {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
+            autoFocus
             onChange={this.handleChange}
           />
         </Box>
@@ -64,7 +72,3 @@ export class ContactForm extends Component {
     );
   }
 }
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

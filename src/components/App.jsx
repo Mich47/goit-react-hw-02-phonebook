@@ -29,14 +29,17 @@ export class App extends Component {
 
   handleSubmitForm = (event, name, number) => {
     event.preventDefault();
-    this.checkContact(name)
-      ? alert(`${name} is already in contacts.`)
-      : this.setState(prevState => ({
-          contacts: [
-            ...prevState.contacts,
-            { id: nanoid(), name: name, number: number },
-          ],
-        }));
+    if (this.checkContact(name)) {
+      alert(`${name} is already in contacts.`);
+      return;
+    }
+    this.setState(prevState => ({
+      contacts: [
+        ...prevState.contacts,
+        { id: nanoid(), name: name, number: number },
+      ],
+    }));
+    return true;
   };
 
   checkContact = newName => {
